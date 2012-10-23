@@ -200,6 +200,11 @@ autocmd Filetype tex setlocal nofoldenable
 autocmd Filetype tex :Tlist
 let tlist_tex_settings   = 'latex;s:sections;g:graphics'
 
+":> Markdown
+au BufNewFile,BufRead *.md set ft=md
+
+":> YAML
+au BufNewFile,BufRead *.yaml,*.yml    setf yaml
 
 " ============================================
 ""		Plugin_Config
@@ -321,4 +326,7 @@ Bundle 'fs111/pydoc.vim.git'
 Bundle 'mitechie/pyflakes-pathogen.git'
 Bundle 'vim-scripts/pep8.git'
 Bundle 'sontek/rope-vim.git'
+
+Bundle 'hughbien/md-vim'
+Bundle 'avakhov/vim-yaml'
 filetype plugin indent on     " required!
