@@ -245,16 +245,27 @@ if has("cscope")
     " if you want the reverse search order.
     set csto=0
 
-    " add any cscope database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out  
+
+	let parent=1
+	let local_cscope = "cscope.out"
+	while !filereadable(local_cscope) && parent<=8
+		let parent = parent+1
+		let local_cscope = "../". local_cscope
+	endwhile
+	
+    " add any cscope database in current directory or its parent
+    if filereadable(local_cscope)
+		echomsg "sourcing " . local_cscope
+        cs add local_cscope 
     " else add the database pointed to by environment variable 
     elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
+		cs add $CSCOPE_DB
+	endif
 
-    " show msg when any other cscope db added
-    set cscopeverbose  
+	unlet parent local_cscope
+
+	" show msg when any other cscope db added
+	set cscopeverbose  
 
     """"""""""""" cscope/vim key mappings
     " The following maps all invoke one of the following cscope search types:
