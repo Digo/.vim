@@ -75,7 +75,10 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 "display for :set list 
 set listchars=nbsp:¬,eol:¶,tab:>-,extends:»,
 
-
+"gvim
+if has('gui_running')
+    colorscheme desert
+endif
 
 filetype plugin indent on
 
@@ -90,11 +93,11 @@ nmap <Leader>s :source $MYVIMRC
 nmap <Leader>v :e $MYVIMRC	 
 
 ":> Copy-and-Paste
-map <C-v> "+gP
-imap <C-v> <C-o>"+gP 
-vmap <C-c> "+y
 map \[ :set paste<CR>
 map \] :set nopaste<CR>
+map <C-v> \["+gP\]
+imap <C-v> <C-o>\["+gP\]
+vmap <C-c> "+y
 ""paste and replace multiple times
 xnoremap p pgvy	
 
@@ -194,17 +197,23 @@ au Syntax jflex    so ~/.vim/syntax/jflex.vim
 
 ":> Latex
 autocmd BufRead *.tex set iskeyword+=:
-autocmd BufRead *.tex :TTarget pdf
-autocmd BufRead *.tex let g:Tex_CompileRule_pdf='pdflatex -interaction=nonstopmode -output-directory ./tmp $*'
+"autocmd BufRead *.tex :TTarget pdf
+"autocmd BufRead *.tex let g:Tex_CompileRule_pdf='pdflatex -interaction=nonstopmode -output-directory ./tmp $*'
 autocmd Filetype tex setlocal nofoldenable
-autocmd Filetype tex :Tlist
 let tlist_tex_settings   = 'latex;s:sections;g:graphics'
+"autocmd Filetype tex :Tlist
 
 ":> Markdown
 au BufNewFile,BufRead *.md set ft=md
 
 ":> YAML
 au BufNewFile,BufRead *.yaml,*.yml    setf yaml
+
+":> wsdd
+au BufNewFile,BufRead *.wsdd    setf xml
+
+":> Git Gutter
+highlight clear SignColumn
 
 " ============================================
 ""		Plugin_Config
@@ -232,6 +241,10 @@ set dictionary+=/usr/share/dict/words
 ":> EasyMotion
 let g:EasyMotion_leader_key = '<Leader>' 
 
+":> Bash-Support
+let g:BASH_AuthorName   = 'Di Wang'
+let g:BASH_Email        = 'kingwangdi@gmail.com'
+"let g:BASH_Company      = 'CMU'
 
 " ============================================
 ""		Cscope_Config
@@ -340,4 +353,7 @@ Bundle 'sontek/rope-vim.git'
 
 Bundle 'hughbien/md-vim'
 Bundle 'avakhov/vim-yaml'
+Bundle 'taglist.vim'
+Bundle 'vim-scripts/bash-support.vim'
+Bundle 'airblade/vim-gitgutter.git'
 filetype plugin indent on     " required!
