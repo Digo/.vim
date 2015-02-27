@@ -433,6 +433,8 @@ Bundle 'chrisbra/Recover.vim'
 Bundle 'kovisoft/slimv'
 Bundle 'elzr/vim-json'
 
+Bundle 'Valloric/YouCompleteMe'
+
 filetype plugin indent on     " required!
 
 
