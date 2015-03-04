@@ -268,11 +268,29 @@ let g:Tlist_Auto_Update=1
 let g:tlist_ant_settings = 'ant;p:Project;t:Target'
 let tlist_make_settings  = 'make;m:makros;t:targets'
 
+" tagbar
+let g:tagbar_compact = 1
+highlight link TagbarHighlight Cursor
+highlight TagbarSignature guifg=yellowgreen
+highlight TagbarVisibilityPublic guifg=#11ee11
+highlight TagbarVisibilityProtected guifg=SkyBlue
+highlight TagbarVisibilityPrivate guifg=#ee1111
+
 " supertab
 let g:SuperTabDefaultCompletionType="context"
 let g:SuperTabLongestHighlight=1
 let g:SuperTabRetainCompletionDuration="completion"
 let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 set dictionary+=/usr/share/dict/words
 
@@ -380,10 +398,12 @@ Bundle 'tpope/vim-fugitive'
 "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'fholgado/minibufexpl.vim'
 
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "garbas/vim-snipmate"
+"Bundle "MarcWeber/vim-addon-mw-utils"
+"Bundle "tomtom/tlib_vim"
+"Bundle "garbas/vim-snipmate"
+
 Bundle "honza/vim-snippets"
+Bundle "SirVer/ultisnips"
 
 Bundle 'scrooloose/nerdcommenter.git'
 Bundle 'kien/ctrlp.vim'
@@ -406,7 +426,7 @@ Bundle 'scrooloose/syntastic'
 "Bundle 'sontek/rope-vim.git'
 Bundle 'klen/python-mode.git'
 Bundle 'ivanov/vim-ipython'
-Bundle 'davidhalter/jedi-vim'
+"Bundle 'davidhalter/jedi-vim'
 
 Bundle 'hughbien/md-vim'
 Bundle 'avakhov/vim-yaml'
@@ -434,6 +454,8 @@ Bundle 'kovisoft/slimv'
 Bundle 'elzr/vim-json'
 
 Bundle 'Valloric/YouCompleteMe'
+
+Bundle 'mhinz/vim-startify'
 
 filetype plugin indent on     " required!
 
