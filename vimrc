@@ -48,6 +48,7 @@ set sps=best,10 " only show 10 best spell suggestions
 set incsearch wrapscan  "do incremental searching
 set ignorecase smartcase
 set showmatch
+set hlsearch
 
 ":> History
 set history=500		" keep 500 lines of command line history
@@ -71,11 +72,12 @@ hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 "set ttimeoutlen=100
 
 ":> Line number
-set rnu "use relative line number in vim 7.4
+"set rnu "use relative line number in vim 7.4
 
 ":> Miscellaneous
 syntax on
 set synmaxcol=255 ""for slow long xml lines 
+set lazyredraw "" for slow scrolling 
 set autowrite
 set mouse=a
 set backspace=indent,eol,start
@@ -113,10 +115,13 @@ vmap <C-c> "+y
 xnoremap p pgvy	
 
 ":> Save File
-map <F3> :w<CR>
-imap <F3> <ESC>:w<CR>
+map <F4> :w<CR>
+imap <F4> <ESC>:w<CR>
 ""force save current file
 cmap w!! w !sudo tee % >/dev/null
+
+" quick exit, also ZZ
+map Q :qa<CR>
 
 ":> Replace
 "For local replace
@@ -202,16 +207,22 @@ autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C
 ":> Python
 autocmd FileType python set tabstop=2|set shiftwidth=2|set expandtab
 au FileType python set omnifunc=pythoncomplete#Complete
-au FileType python map <buffer> <S-e> :w<CR>:!/uPylintsr/bin/env python % <CR>
+au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 let python_highlight_all = 1
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd BufWritePre *.py :%s/\s\+$//e
+
 let g:pymode_folding = 0
 let g:pymode_lint_cwindow = 0
 let g:pymode_lint_write = 0
-let g:pymode_rope = 1
+let g:pymode_rope = 0
 let g:pymode_lint_on_write = 0 
+" syntax highlighting
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 ":> JFlex
 augroup filetype
@@ -242,6 +253,10 @@ au BufNewFile,BufRead *.yaml,*.yml    setf yaml
 
 ":> wsdd
 au BufNewFile,BufRead *.wsdd    setf xml
+
+":> cuda
+au BufNewFile,BufRead *.cu set filetype=cuda
+au BufNewFile,BufRead *.cuh set filetype=cuda
 
 ":> XML formatter
 command XmlLint :exec "silent 1,$!xmllint --format --recover - 2>/dev/null"
@@ -282,6 +297,9 @@ let g:SuperTabLongestHighlight=1
 let g:SuperTabRetainCompletionDuration="completion"
 let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 
+" YCM
+map <F3> :YcmCompleter GoTo<CR>
+
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -315,6 +333,11 @@ au FileType c,cpp,objc,objcpp,python call rainbow#load()
 
 ":> LanguageTool
 let g:languagetool_jar='~/usr/LanguageTool-2.4/languagetool-commandline.jar'
+
+":> Try to use The Silver Searcher if available 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 
 " ============================================
 ""		Cscope_Config
@@ -394,7 +417,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle' 
 
 Bundle 'tpope/vim-fugitive'
-"Bundle 'Lokaltog/vim-easymotion'
+Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'fholgado/minibufexpl.vim'
 
@@ -407,6 +430,7 @@ Bundle "SirVer/ultisnips"
 
 Bundle 'scrooloose/nerdcommenter.git'
 Bundle 'kien/ctrlp.vim'
+Bundle 'mileszs/ack.vim'
 
 Bundle 'ervandew/supertab.git'
 Bundle 'godlygeek/tabular.git'
