@@ -25,8 +25,8 @@ set nocompatible
 set autoindent
 "set cindent
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 
 ":> Status
 set ruler		" show the cursor position all the time in statusline
@@ -205,7 +205,7 @@ autocmd BufRead *.java set makeprg=ant\ -find\ 'build.xml'
 autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#]]
 
 ":> Python
-autocmd FileType python set tabstop=2|set shiftwidth=2|set expandtab
+autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 let python_highlight_all = 1
@@ -449,7 +449,7 @@ Bundle 'scrooloose/syntastic'
 "Bundle 'vim-scripts/pep8.git'
 "Bundle 'sontek/rope-vim.git'
 Bundle 'klen/python-mode.git'
-Bundle 'ivanov/vim-ipython'
+"Bundle 'ivanov/vim-ipython'
 "Bundle 'davidhalter/jedi-vim'
 
 Bundle 'hughbien/md-vim'
@@ -461,7 +461,7 @@ Bundle 'taglist.vim'
 Bundle 'airblade/vim-gitgutter.git'
 
 "Bundle 'Yggdroot/indentLine.git'
-Bundle 'LaTeX-Box-Team/LaTeX-Box'
+"Bundle 'LaTeX-Box-Team/LaTeX-Box'
 "Bundle 'coot/atp_vim'
 
 Bundle 'oblitum/rainbow'
