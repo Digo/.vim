@@ -25,8 +25,8 @@ set nocompatible
 set autoindent
 "set cindent
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 
 ":> Status
 set ruler		" show the cursor position all the time in statusline
@@ -206,7 +206,7 @@ autocmd BufRead *.java set makeprg=ant\ -find\ 'build.xml'
 autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#]]
 
 ":> Python
-autocmd FileType python set tabstop=2|set shiftwidth=2|set expandtab
+autocmd FileType python set expandtab
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 let python_highlight_all = 1
@@ -248,6 +248,7 @@ au FileType tex setlocal nocursorline
 
 ":> Markdown
 au BufNewFile,BufRead *.md set ft=md
+let g:vim_markdown_folding_disabled=1
 
 ":> YAML
 au BufNewFile,BufRead *.yaml,*.yml    setf yaml
@@ -339,6 +340,12 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+":> EasyAlign 
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " ============================================
 ""		neocomplete_config
@@ -566,11 +573,13 @@ Bundle 'scrooloose/nerdcommenter.git'
 Bundle 'mileszs/ack.vim'
 
 Bundle 'ervandew/supertab.git'
-Bundle 'godlygeek/tabular.git'
 Bundle 'vim-scripts/matchit.zip.git'
 Bundle 'scrooloose/nerdtree.git'
 Bundle 'majutsushi/tagbar.git'
 Bundle 'vim-scripts/LargeFile.git'
+
+Bundle 'godlygeek/tabular.git'
+Bundle 'junegunn/vim-easy-align'
 
 "Bundle 'myusuf3/numbers.vim.git' "use rnu
 "Bundle 'Lokaltog/vim-powerline.git'
@@ -582,10 +591,11 @@ Bundle 'scrooloose/syntastic'
 "Bundle 'vim-scripts/pep8.git'
 "Bundle 'sontek/rope-vim.git'
 Bundle 'klen/python-mode.git'
-Bundle 'ivanov/vim-ipython'
+"Bundle 'ivanov/vim-ipython'
 "Bundle 'davidhalter/jedi-vim'
 
-Bundle 'hughbien/md-vim'
+"Bundle 'hughbien/md-vim'
+Plugin 'plasticboy/vim-markdown'
 Bundle 'avakhov/vim-yaml'
 Bundle 'sukima/xmledit.git'
 
