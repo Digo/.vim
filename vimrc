@@ -612,9 +612,8 @@ Bundle 'LaTeX-Box-Team/LaTeX-Box'
 Bundle 'bling/vim-airline'
 Bundle 'nanotech/jellybeans.vim'
 
-Bundle 'derekwyatt/vim-scala'
-
-Bundle 'dpelle/vim-LanguageTool'
+"Bundle 'derekwyatt/vim-scala'
+"Bundle 'dpelle/vim-LanguageTool'
 
 Bundle 'chrisbra/Recover.vim'
 Bundle 'kovisoft/slimv'
@@ -627,6 +626,11 @@ Bundle 'osyo-manga/vim-marching'
 Bundle 'Shougo/vimproc.vim'
 
 Bundle 'mhinz/vim-startify'
+
+"Bundle 'keith/swift.vim'
+
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-lua-ftplugin'
 
 filetype plugin indent on     " required!
 
