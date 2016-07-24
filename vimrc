@@ -276,6 +276,10 @@ highlight clear SignColumn
 " minibufexpl (only for old plugin)
 "let g:miniBufExplMapWindowNavVim = 1 
 
+" nerdtree
+map <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " taglist.vim
 let g:Tlist_GainFocus_On_ToggleOpen=0
 let g:Tlist_Exit_OnlyWindow=1
@@ -322,12 +326,24 @@ let g:BASH_Email        = 'diwang@cs.cmu.edu'
 "let g:BASH_Company      = 'CMU'
 
 ":> syntastic
-let g:syntastic_check_on_wq = 0
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 let g:syntastic_mode_map = { 'mode': 'passive',
-						   \ 'active_filetypes': [],
+						   \ 'active_filetypes': ['lua'],
 						   \ 'passive_filetypes': [] }
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_lua_checkers = ["luac", "luacheck"]
+let g:syntastic_lua_luacheck_args = "--ignore torch nn misc"
+
+":> gist
+let g:gist_post_private = 1
 
 ":> Rainbow Parentheses Improved
 "au FileType c,cpp,objc,objcpp,python call rainbow#load()
@@ -478,6 +494,8 @@ imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 " 非同期ではなくて、同期処理でコード補完を行う場合
 " この設定の場合は vimproc.vim に依存しない
 " let g:marching_backend = "sync_clang_command"
+
+
 
 " ============================================
 ""		Cscope_Config
@@ -631,6 +649,9 @@ Bundle 'mhinz/vim-startify'
 
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-lua-ftplugin'
+
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
 
 filetype plugin indent on     " required!
 
