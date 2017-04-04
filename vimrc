@@ -622,8 +622,9 @@ Bundle 'taglist.vim'
 Bundle 'airblade/vim-gitgutter.git'
 
 "Bundle 'Yggdroot/indentLine.git'
-Bundle 'LaTeX-Box-Team/LaTeX-Box'
+"Bundle 'LaTeX-Box-Team/LaTeX-Box'
 "Bundle 'coot/atp_vim'
+Bundle 'lervag/vimtex'
 
 "Bundle 'oblitum/rainbow'
 "Bundle 'morhetz/gruvbox'
