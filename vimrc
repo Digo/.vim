@@ -245,6 +245,30 @@ autocmd FileType tex :NoMatchParen
 " cursorline is slow on tex
 au FileType tex setlocal nocursorline
 
+"vimtex pdf viewer
+let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+
+" This adds a callback hook that updates Skim after compilation
+let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
+function! UpdateSkim(status)
+  if !a:status | return | endif
+
+  let l:out = b:vimtex.out()
+  let l:tex = expand('%:p')
+  let l:cmd = [g:vimtex_view_general_viewer, '-r']
+  if !empty(system('pgrep Skim'))
+	call extend(l:cmd, ['-g'])
+  endif
+  if has('nvim')
+	call jobstart(l:cmd + [line('.'), l:out, l:tex])
+  elseif has('job')
+	call job_start(l:cmd + [line('.'), l:out, l:tex])
+  else
+	call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
+  endif
+endfunction
+
 
 ":> Markdown
 au BufNewFile,BufRead *.md set ft=md
@@ -267,7 +291,9 @@ command XmlLint :exec "silent 1,$!xmllint --format --recover - 2>/dev/null"
 command Mjson :exec "silent 1,$!python -mjson.tool 2>/dev/null"
 
 ":> Git Gutter
-highlight clear SignColumn
+""highlight clear SignColumn
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
 
 " ============================================
 ""		Plugin_Config
@@ -608,7 +634,7 @@ Bundle 'scrooloose/syntastic'
 "Bundle 'mitechie/pyflakes-pathogen.git'
 "Bundle 'vim-scripts/pep8.git'
 "Bundle 'sontek/rope-vim.git'
-Bundle 'klen/python-mode.git'
+""Bundle 'klen/python-mode.git'
 "Bundle 'ivanov/vim-ipython'
 "Bundle 'davidhalter/jedi-vim'
 
