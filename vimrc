@@ -11,7 +11,7 @@
 "" 		FileType_Config
 "" 		Plugin_Config
 ""		Cscope_Config
-""		Vundle_Config
+""		Plug_Config
 " --------------------------------------------
 
 " ============================================
@@ -65,6 +65,7 @@ highlight PMenu ctermbg=Red
 "colorscheme hk
 "colorscheme gruvbox
 hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
+
 
 ":> Highlight insert mode
 "au InsertEnter * set cursorline
@@ -207,23 +208,24 @@ autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C
 
 ":> Python
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
-au FileType python set omnifunc=pythoncomplete#Complete
-au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
+"au FileType python set omnifunc=pythoncomplete#Complete
+au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/env python3 % <CR>
+"let g:completor_python_binary = '/Users/diwang/anaconda/bin/python3'
 let python_highlight_all = 1
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd BufWritePre *.py :%s/\s\+$//e
 
-let g:pymode_folding = 0
-let g:pymode_lint_cwindow = 0
-let g:pymode_lint_write = 0
-let g:pymode_rope = 0
-let g:pymode_lint_on_write = 0 
-" syntax highlighting
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
+"let g:pymode_folding = 0
+"let g:pymode_lint_cwindow = 0
+"let g:pymode_lint_write = 0
+"let g:pymode_rope = 0
+"let g:pymode_lint_on_write = 0 
+"" syntax highlighting
+"let g:pymode_syntax = 1
+"let g:pymode_syntax_all = 1
+"let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+"let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 ":> JFlex
 augroup filetype
@@ -240,7 +242,7 @@ let tlist_tex_settings   = 'latex;s:sections;g:graphics'
 "autocmd Filetype tex :Tlist
 autocmd Filetype tex vnoremap +$ <Esc>`>a$<Esc>`<i$<Esc>
 autocmd Filetype tex inoremap $ $$<Esc>:call BC_AddChar("$")<CR>i
-autocmd Filetype tex set tw=79
+"autocmd Filetype tex set tw=79
 autocmd FileType tex :NoMatchParen
 " cursorline is slow on tex
 au FileType tex setlocal nocursorline
@@ -351,22 +353,22 @@ let g:BASH_AuthorName   = 'Di Wang'
 let g:BASH_Email        = 'diwang@cs.cmu.edu'
 "let g:BASH_Company      = 'CMU'
 
-":> syntastic
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_mode_map = { 'mode': 'passive',
-						   \ 'active_filetypes': ['lua'],
-						   \ 'passive_filetypes': [] }
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"":> syntastic
+"let g:syntastic_error_symbol = '✗'
+"let g:syntastic_warning_symbol = '⚠'
+"let g:syntastic_mode_map = { 'mode': 'passive',
+						   "\ 'active_filetypes': ['lua'],
+						   "\ 'passive_filetypes': [] }
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_lua_checkers = ["luac", "luacheck"]
-let g:syntastic_lua_luacheck_args = "--ignore torch nn misc"
+"let g:syntastic_always_populate_loc_list = 0
+"let g:syntastic_auto_loc_list = 0
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_lua_checkers = ["luac", "luacheck"]
+"let g:syntastic_lua_luacheck_args = "--ignore torch nn misc"
 
 ":> gist
 let g:gist_post_private = 1
@@ -389,138 +391,9 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" ============================================
-""		neocomplete_config
-" --------------------------------------------
 
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-" For cursor moving in insert mode(Not recommended)
-"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
-"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
-"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
-"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
-" Or set this.
-"let g:neocomplete#enable_cursor_hold_i = 1
-" Or set this.
-"let g:neocomplete#enable_insert_char_pre = 1
-
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-
-""""" vim-marching
-
-" clang コマンドの設定
-let g:marching_clang_command = "clang"
-
-" オプションを追加する
-" filetype=cpp に対して設定する場合
-let g:marching#clang_command#options = {
-\   "cpp" : "-std=gnu++1y"
-\}
-
-" インクルードディレクトリのパスを設定
-let g:marching_include_paths = [
-\   "/opt/local/include/",
-\   "/Developer/NVIDIA/CUDA-7.0/include/"
-\]
-
-" neocomplete.vim と併用して使用する場合
-let g:marching_enable_neocomplete = 1
-
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-let g:neocomplete#force_omni_input_patterns.cpp =
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
-" 処理のタイミングを制御する
-" 短いほうがより早く補完ウィンドウが表示される
-" ただし、marching.vim 以外の処理にも影響するので注意する
-set updatetime=200
-
-" オムニ補完時に補完ワードを挿入したくない場合
-imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-
-" キャッシュを削除してからオムに補完を行う
-imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
-
-
-" 非同期ではなくて、同期処理でコード補完を行う場合
-" この設定の場合は vimproc.vim に依存しない
-" let g:marching_backend = "sync_clang_command"
-
+""> completor
+"" let g:completor_complete_options = 'menuone,noselect,preview'
 
 
 " ============================================
@@ -586,104 +459,104 @@ if has("cscope")
 endif
 
 
-
-
 " ============================================
-""		Vundle_Config
+""		Plug_Config
 " --------------------------------------------
 
-" NOTE: comments after Bundle command are not allowed.
-filetype off                   " required!
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call plug#begin('~/.vim/plugged')
 " let Vundle manage Vundle
-Bundle 'gmarik/vundle' 
+"Plug 'gmarik/vundle' 
 
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'fholgado/minibufexpl.vim'
+"Plug 'tpope/vim-fugitive'
+Plug 'Lokaltog/vim-easymotion'
+"Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plug 'fholgado/minibufexpl.vim'
 
-"Bundle "MarcWeber/vim-addon-mw-utils"
-"Bundle "tomtom/tlib_vim"
-"Bundle "garbas/vim-snipmate"
+"Plug "MarcWeber/vim-addon-mw-utils"
+"Plug "tomtom/tlib_vim"
+"Plug "garbas/vim-snipmate"
 
-Bundle "honza/vim-snippets"
-Bundle "SirVer/ultisnips"
+""Plug "honza/vim-snippets"
+""Plug "SirVer/ultisnips"
 
-Bundle 'scrooloose/nerdcommenter.git'
-"Bundle 'kien/ctrlp.vim'
-Bundle 'mileszs/ack.vim'
+Plug 'scrooloose/nerdcommenter'
+"Plug 'kien/ctrlp.vim'
+Plug 'mileszs/ack.vim'
 
-Bundle 'ervandew/supertab.git'
-Bundle 'vim-scripts/matchit.zip.git'
-Bundle 'scrooloose/nerdtree.git'
-Bundle 'majutsushi/tagbar.git'
-Bundle 'vim-scripts/LargeFile.git'
+Plug 'ervandew/supertab'
+Plug 'vim-scripts/matchit.zip'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'majutsushi/tagbar'
+Plug 'vim-scripts/LargeFile'
 
-Bundle 'godlygeek/tabular.git'
-Bundle 'junegunn/vim-easy-align'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 
-"Bundle 'myusuf3/numbers.vim.git' "use rnu
-"Bundle 'Lokaltog/vim-powerline.git'
-Bundle 'scrooloose/syntastic'
+"Plug 'myusuf3/numbers.vim.git' "use rnu
+"Plug 'Lokaltog/vim-powerline.git'
+"Plug 'scrooloose/syntastic'
 
 "Python
-"Bundle 'fs111/pydoc.vim.git'
-"Bundle 'mitechie/pyflakes-pathogen.git'
-"Bundle 'vim-scripts/pep8.git'
-"Bundle 'sontek/rope-vim.git'
-""Bundle 'klen/python-mode.git'
-"Bundle 'ivanov/vim-ipython'
-"Bundle 'davidhalter/jedi-vim'
+"Plug 'fs111/pydoc.vim.git'
+"Plug 'mitechie/pyflakes-pathogen.git'
+"Plug 'vim-scripts/pep8.git'
+"Plug 'sontek/rope-vim.git'
+""Plug 'klen/python-mode.git'
+"Plug 'ivanov/vim-ipython'
+"Plug 'davidhalter/jedi-vim'
 
-"Bundle 'hughbien/md-vim'
-Plugin 'plasticboy/vim-markdown'
-Bundle 'avakhov/vim-yaml'
-Bundle 'sukima/xmledit.git'
+"Plug 'hughbien/md-vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'avakhov/vim-yaml'
+Plug 'sukima/xmledit'
+Plug 'elzr/vim-json'
 
-Bundle 'taglist.vim'
-"Bundle 'vim-scripts/bash-support.vim'
-Bundle 'airblade/vim-gitgutter.git'
+Plug 'vim-scripts/taglist.vim'
+"Plug 'vim-scripts/bash-support.vim'
+"Plug 'airblade/vim-gitgutter.git'
 
-"Bundle 'Yggdroot/indentLine.git'
-"Bundle 'LaTeX-Box-Team/LaTeX-Box'
-"Bundle 'coot/atp_vim'
-Bundle 'lervag/vimtex'
+"Plug 'Yggdroot/indentLine.git'
+"Plug 'LaTeX-Box-Team/LaTeX-Box'
+"Plug 'coot/atp_vim'
+Plug 'lervag/vimtex'
 
-"Bundle 'oblitum/rainbow'
-"Bundle 'morhetz/gruvbox'
-Bundle 'bling/vim-airline'
-Bundle 'nanotech/jellybeans.vim'
+"Plug 'oblitum/rainbow'
+"Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'nanotech/jellybeans.vim'
 
-"Bundle 'derekwyatt/vim-scala'
-"Bundle 'dpelle/vim-LanguageTool'
+"Plug 'derekwyatt/vim-scala'
+"Plug 'dpelle/vim-LanguageTool'
 
-Bundle 'chrisbra/Recover.vim'
-Bundle 'kovisoft/slimv'
-Bundle 'elzr/vim-json'
+Plug 'chrisbra/Recover.vim'
+"Plug 'kovisoft/slimv'
 
 "auto complete
-"Bundle 'Valloric/YouCompleteMe'
-Bundle 'Shougo/neocomplete.vim'
-Bundle 'osyo-manga/vim-marching'
-Bundle 'Shougo/vimproc.vim'
-
-Bundle 'mhinz/vim-startify'
-
-"Bundle 'keith/swift.vim'
-
-Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-lua-ftplugin'
-
-Bundle 'mattn/webapi-vim'
-Bundle 'mattn/gist-vim'
-
-filetype plugin indent on     " required!
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'Shougo/neocomplete.vim'
+"Plug 'osyo-manga/vim-marching'
+"Plug 'Shougo/vimproc.vim'
+Plug 'maralla/completor.vim'
 
 
+Plug 'mhinz/vim-startify'
+
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-lua-ftplugin'
+
+"Plug 'mattn/webapi-vim'
+"Plug 'mattn/gist-vim'
+
+
+call plug#end()
+
+"filetype plugin indent on     " required!
 "" reset from indentLine and fugitive plugins
-
 colorscheme jellybeans
 set concealcursor=nc
