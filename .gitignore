@@ -3,3 +3,6 @@
 eclim/
 bundle/
 plugin/
+spell/
+autoload/
+plugged/
